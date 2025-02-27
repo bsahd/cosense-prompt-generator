@@ -23,7 +23,7 @@ if (!fetchres.ok) {
 }
 const res = await fetchres.json() as cosense.SearchResult;
 let totalPrintLength = 0;
-const PRINT_LIMIT = 2048;
+const PRINT_LIMIT = 4096;
 if (res.pages.length == 0) {
 	Deno.stderr.writeSync(
 		new TextEncoder().encode(
@@ -45,8 +45,8 @@ for (let index = 0; index < res.pages.length; index++) {
 		break;
 	}
 	const element = res.pages[index];
-	print("======" + (index + 1) + "番目の関連ページ=====");
-	print("ページ名: " + element.title);
+	print("====== #" + (index + 1) + " Related Page=====");
+	print("Page Name: " + element.title);
 	for (let index2 = 0; index2 < element.lines.length; index2++) {
 		const elementline = element.lines[index2];
 		print(elementline);
@@ -54,7 +54,7 @@ for (let index = 0; index < res.pages.length; index++) {
 	print("\n");
 }
 
-console.log("関連ページをまとめてください");
+console.log("In what context is "+query+" used? Please answer based on the content of the related page.");
 Deno.stderr.writeSync(
 	new TextEncoder().encode(
 		totalPrintLength + "bytes(" + (totalPrintLength / 3) +
